@@ -3,7 +3,7 @@ import { MainModule } from './main.module';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as path from 'path';
-import { PageNotFoundExceptionFilter } from 'system/exeptions/page-not-found-exception/page-not-found-exception.filter';
+import { PageNotFoundExceptionFilter } from 'system';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(MainModule);

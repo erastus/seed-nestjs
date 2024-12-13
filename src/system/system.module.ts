@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
+import { Logger } from './index';
 
 @Module({
-  imports: [],
+  providers: [Logger],
+  exports: [Logger]
 })
 export class SystemModule {}
