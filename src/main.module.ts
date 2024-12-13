@@ -6,9 +6,13 @@ import { SystemModule } from './system/system.module';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
-    }),
+    ServeStaticModule.forRoot(
+      // TODO: si es != production ? '..' : '' en rootPath: join(__dirname, '..', 'public')
+      {
+        serveRoot: '/',
+        rootPath: join(__dirname, '..', 'public'),
+      }
+    ),
     AppModule,
     SystemModule
   ],
