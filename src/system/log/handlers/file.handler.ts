@@ -2,7 +2,7 @@ import { BaseHandler } from "./base.handler";
 import { HandlerInterface } from "./handler.interface";
 import { date } from '../../helper/date.helper';
 import * as fs from 'fs';
-import * as path from 'path';
+import { join } from 'path';
 
 export class FileHandler extends BaseHandler implements HandlerInterface {
   /**
@@ -36,7 +36,7 @@ export class FileHandler extends BaseHandler implements HandlerInterface {
   constructor(config: Object) {
     super(config);
 
-    this.path = config['path'] !== '' ? config['path'] : 'WRITEPATH' + 'logs/';
+    this.path = config['path'] !== '' ? config['path'] : join(process.env.WRITEPATH, 'logs');
 
 		this.fileExtension = config['fileExtension'] !== '' ? config['fileExtension'] : 'log';
 		this.fileExtension = this.fileExtension.replace('.', '');
@@ -60,7 +60,7 @@ export class FileHandler extends BaseHandler implements HandlerInterface {
 	 */
 
   handle(level: string, message: any): boolean {
-		const filepath = path.join(__dirname,`log-${date('yyyy-MM-dd')}.${this.fileExtension}`);
+		const filepath = join(this.path,`log-${date('yyyy-MM-dd')}.${this.fileExtension}`);
 
 		if(!fs.existsSync(filepath))
 		{

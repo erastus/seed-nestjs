@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { isNumeric } from '../helper';
 import { FileHandler } from './handlers/file.handler';
 
@@ -105,7 +105,7 @@ export class Logger {
 	 */
 
   constructor() {
-		const threshold = 4;
+		const threshold = 9;
 		this.loggableLevels = Array.isArray(threshold) ? threshold : Array.from({ length: Number(threshold) }, (value, index) => index + 1);
 
 		// Now convert loggable levels to strings.

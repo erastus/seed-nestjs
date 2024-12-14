@@ -1,12 +1,12 @@
 import { NestFactory } from '@nestjs/core';
-import { MainModule } from './main.module';
+import { AppModule } from 'app/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as path from 'path';
 import { PageNotFoundExceptionFilter } from 'system';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(MainModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.setGlobalPrefix('api')
 
