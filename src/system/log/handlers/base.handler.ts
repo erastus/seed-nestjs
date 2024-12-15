@@ -15,6 +15,13 @@ export abstract class BaseHandler implements HandlerInterface {
 	 */
 	protected dateFormat = 'yyyy-MM-dd HH:mm:ss';
 
+	/**
+	 * context
+	 *
+	 * @var string
+	 */
+	protected context = '';
+
 	//--------------------------------------------------------------------
 
 	/**
@@ -22,8 +29,9 @@ export abstract class BaseHandler implements HandlerInterface {
 	 *
 	 * @param object config
 	 */
-	constructor(config: Object) {
+	constructor(config: Object, context: string) {
     this.handles = config['handles'] ?? [];
+		this.context = context;
 	}
 
 	//--------------------------------------------------------------------

@@ -5,7 +5,10 @@ import { Logger } from 'system';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly log: Logger) {}
+  constructor(private readonly log: Logger) {
+    log.setContext(this);
+  }
+
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }

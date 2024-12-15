@@ -105,7 +105,7 @@ export class Logger
         * IMPORTANT: This MUST be an integer (no quotes) and you MUST use octal
         * integer notation (i.e. 0700, 0644, etc.)
         */
-        'filePermissions': 0o644,
+      'filePermissions': 0o644,
 
       /*
         * Logging Directory Path
@@ -114,6 +114,24 @@ export class Logger
         * Specify a different destination here, if desired.
         */
       'path': '',
+    },
+    /*
+      * --------------------------------------------------------------------
+      * ERROR LOG Handler
+      * --------------------------------------------------------------------
+      */
+    ErrorlogHandler: {
+      // The log levels that this handler will handle.
+      'handles': [
+        'critical',
+        'alert',
+        'emergency',
+        'debug',
+        'error',
+        'info',
+        'notice',
+        'warning',
+      ],
     }
   };
 

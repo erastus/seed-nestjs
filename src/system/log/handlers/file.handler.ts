@@ -26,6 +26,13 @@ export class FileHandler extends BaseHandler implements HandlerInterface {
 	 */
 	protected filePermissions;
 
+	/**
+	 * context
+	 *
+	 * @var string
+	 */
+	protected context = '';
+
 	//--------------------------------------------------------------------
 
 	/**
@@ -33,8 +40,8 @@ export class FileHandler extends BaseHandler implements HandlerInterface {
 	 *
 	 * @param object config
 	 */
-  constructor(config: Object) {
-    super(config);
+  constructor(config: Object, context: string) {
+    super(config, context);
 
     this.path = config['path'] !== '' ? config['path'] : join(process.env.WRITEPATH, 'logs');
 
@@ -42,6 +49,7 @@ export class FileHandler extends BaseHandler implements HandlerInterface {
 		this.fileExtension = this.fileExtension.replace('.', '');
 
 		this.filePermissions = config['filePermissions'] !== '' ? config['filePermissions'] : 0o644;
+		this.context = context;
 
   }
 
@@ -68,7 +76,9 @@ export class FileHandler extends BaseHandler implements HandlerInterface {
 		}
 
 		const currentDate = date(this.dateFormat);
-		const msg = `${level.toUpperCase()} - ${currentDate} --> ${message}\n`;
+		const context =  this.context.length === 0 ? '' : `[${this.context}] `;
+
+		const msg = `${level.toUpperCase()} - ${currentDate} --> ${context}${message}\n`;
 
 		fs.appendFileSync(filepath, msg);
 

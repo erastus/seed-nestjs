@@ -1,10 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { isNumeric } from '../helper';
-import { FileHandler } from './handlers/file.handler';
 import { LoggerConfig } from 'system/interfaces';
+import { FileHandler } from './handlers/file.handler';
+import { ErrorlogHandler } from './handlers/error-log.handler';
 
 const clases = {
 	FileHandler,
+	ErrorlogHandler
 };
 
 @Injectable()
@@ -94,6 +96,13 @@ export class Logger {
 	 * @var boolean
 	 */
 	protected cacheLogs = false;
+
+	/**
+	 * context
+	 *
+	 * @var string
+	 */
+	protected context = '';
 
 	//--------------------------------------------------------------------
 
@@ -324,7 +333,7 @@ export class Logger {
 			const config = this.handlerConfig[className];
 			if (! this.handlers.includes(className))
 			{
-				this.handlers[className] = new clases[className](config);
+				this.handlers[className] = new clases[className](config, this.context);
 			}
 
 			/**
@@ -348,4 +357,13 @@ export class Logger {
 		return true;
 	}
 
+	public setContext(context: string|object)	{
+		if(typeof context === 'object'){
+			context = context.constructor.name;
+		}
+
+		this.context = context
+	}
+
 }
+//const logger = new Logger('restartedMain');

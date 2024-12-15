@@ -1,9 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Path } from './interfaces/path/path.interface';
+import { Logger } from './log/logger';
 
 @Injectable()
 export class Bootstrap {
-  constructor(@Inject('APP_PATHS') private readonly paths: Path) {
+  constructor(@Inject('APP_PATHS') private readonly paths: Path, private readonly log: Logger) {
+    this.log.setContext('Bootstrap');
+
     /*
     * ---------------------------------------------------------------
     * SETUP OUR PATH CONSTANTS
@@ -30,5 +33,6 @@ export class Bootstrap {
       process.env.WRITEPATH = this.paths.writableDirectory;
     }
 
+    this.log.info(`Bootstrap Class Initialized...`);
   }
 }
