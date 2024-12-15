@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './features/user/user.module';
-import { ConfigModule } from './features/config/config.module';
+import { AppConfigModule } from './features/app-config/app-config.module';
 import { SystemModule } from 'system/system.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
@@ -9,6 +10,7 @@ import { Logger } from './config/logger';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     SystemModule.forRoot(
       {
         loggerConfig: new Logger(),
@@ -22,7 +24,7 @@ import { Logger } from './config/logger';
       }
     ),
     UserModule,
-    ConfigModule
+    AppConfigModule
   ],
   controllers: [],
   providers: [],
