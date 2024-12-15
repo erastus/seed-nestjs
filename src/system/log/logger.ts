@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { isNumeric } from '../helper';
 import { FileHandler } from './handlers/file.handler';
+import { LoggerConfig } from 'system/interfaces';
 
 const clases = {
 	FileHandler,
@@ -104,9 +105,8 @@ export class Logger {
 	 * @throws \RuntimeException
 	 */
 
-  constructor() {
-		const threshold = 9;
-		this.loggableLevels = Array.isArray(threshold) ? threshold : Array.from({ length: Number(threshold) }, (value, index) => index + 1);
+  constructor(@Inject('LOGGER_CONFIG') private readonly config: LoggerConfig, @Inject('NESTJS_DEBUG') debug: boolean) {
+		this.loggableLevels = Array.isArray(this.config.threshold) ? this.config.threshold : Array.from({ length: Number(this.config.threshold) }, (value, index) => index + 1);
 
 		// Now convert loggable levels to strings.
 		// We only use numbers to make the threshold setting convenient for users.
@@ -123,38 +123,23 @@ export class Logger {
 			//unset(temp);
 		}
 
-		// this.dateFormat = config.dateFormat ?? this.dateFormat;
+		this.dateFormat = this.config.dateFormat ? this.config.dateFormat : this.dateFormat;
 
-		// if (! is_array($config->handlers) || empty($config->handlers))
-		// {
-		// 	throw LogException::forNoHandlers('LoggerConfig');
-		// }
+		if (typeof this.config.handlers != 'object' || Object.keys(this.config.handlers).length === 0)
+		{
+			// TODO: throw LogException::forNoHandlers('LoggerConfig');
+			throw Error(`forNoHandlers('LoggerConfig')`)
+		}
 
 		// Save the handler configuration for later.
 		// Instances will be created on demand.
-		// this.handlerConfig = config.handlers;
-		this.handlerConfig = {
-			FileHandler: {
-				'handles': [
-					'critical',
-					'alert',
-					'emergency',
-					'debug',
-					'error',
-					'info',
-					'notice',
-					'warning',
-				],
-				'fileExtension': '',
-				'path': ''
-			}
-		};
+		this.handlerConfig = this.config.handlers;
 
-		// this.cacheLogs = debug;
-		// if (this.cacheLogs)
-		// {
-		// 	this.logCache = [];
-		// }
+		this.cacheLogs = debug;
+		if (this.cacheLogs)
+		{
+			this.logCache = [];
+		}
   }
 
 	//--------------------------------------------------------------------
@@ -322,18 +307,18 @@ export class Logger {
 		// Parse our placeholders
 		// message = this.interpolate(message, context);
 
-		// if (! is_string($message))
-		// {
-		// 	$message = print_r($message, true);
-		// }
+		if (typeof message != 'string')
+		{
+			message = JSON.stringify(message);
+		}
 
-		// if (this.cacheLogs)
-		// {
-		// 	this.logCache[] = [
-		// 		'level' => level,
-		// 		'msg'   => message,
-		// 	];
-		// }
+		if (this.cacheLogs)
+		{
+			this.logCache.push({
+				'level' : level,
+				'msg'   : message,
+			});
+		}
 
 		for (const className in this.handlerConfig) {
 			const config = this.handlerConfig[className];

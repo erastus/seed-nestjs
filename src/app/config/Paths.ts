@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { join } from 'path';
-import { Path } from 'system/interfaces/path/path.interface';
 
 /**
  * Holds the paths that are used by the system to
@@ -11,7 +10,7 @@ import { Path } from 'system/interfaces/path/path.interface';
  * All paths are relative to the project's root folder.
  */
 @Injectable()
-export class Paths implements Path
+export class Paths
 {
   /*
 	 *---------------------------------------------------------------

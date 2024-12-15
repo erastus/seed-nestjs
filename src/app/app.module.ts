@@ -5,11 +5,13 @@ import { SystemModule } from 'system/system.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { Paths } from './config/Paths';
+import { Logger } from './config/logger';
 
 @Module({
   imports: [
     SystemModule.forRoot(
       {
+        loggerConfig: new Logger(),
         paths: new Paths()
       }
     ),
