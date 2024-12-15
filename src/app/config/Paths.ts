@@ -35,7 +35,7 @@ export class Paths implements Path
 	 * for maximum security, keeping it out of the application and/or
 	 * system directories.
 	 */
-	public writableDirectory = join(__dirname, '..', '..', '..', 'writable');
+	public writableDirectory = join(process.cwd(), 'writable');
 
   constructor(){}
 

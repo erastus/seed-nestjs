@@ -21,8 +21,9 @@ async function bootstrap() {
     })
   )
 
+  app.engine('pug', require('pug').__express);
   app.setViewEngine('pug');
-  app.setBaseViewsDir(path.join(__dirname, 'app', 'views'));
+  app.setBaseViewsDir(path.join(process.cwd()));
 
   app.useGlobalFilters(new PageNotFoundExceptionFilter());
 

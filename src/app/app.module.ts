@@ -14,10 +14,9 @@ import { Paths } from './config/Paths';
       }
     ),
     ServeStaticModule.forRoot(
-      // TODO: si es != production ? '..' : '' en rootPath: join(__dirname, '..', 'public')
       {
         serveRoot: '/',
-        rootPath: join(__dirname, '..', '..', 'public'),
+        rootPath: join(process.cwd(), 'public'),
       }
     ),
     UserModule,

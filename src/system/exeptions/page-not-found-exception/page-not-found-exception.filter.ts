@@ -14,7 +14,7 @@ export class PageNotFoundExceptionFilter implements ExceptionFilter {
         pageNotFound: '404 Page Not Found',
         message: 'The page you requested was not found.',
       };
-      response.status(404).render('errors/html/error-404', data);
+      response.status(404).render('error/HTTP_NOT_FOUND', data);
     } else {
       // For other HTTP methods, we throw the error as standard
       response.status(404).json({
